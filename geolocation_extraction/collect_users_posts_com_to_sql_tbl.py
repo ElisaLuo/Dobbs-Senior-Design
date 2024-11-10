@@ -16,7 +16,7 @@ com_tables = [
     for year in range(2010, 2023) 
     for month in range(1, 13)
 ]
-com_tables += ['com_2023_01', 'com_2023_02', 'com_2023_03']
+com_tables += ['com_2024_01', 'com_2024_02', 'com_2024_03', 'com_2024_04', 'com_2024_05', 'com_2024_06']
 print(com_tables)
 
 sub_tables = [
@@ -25,14 +25,19 @@ sub_tables = [
     for month in range(1, 13)
 ]
 
-sub_tables += ['sub_2023_01', 'sub_2023_02', 'sub_2023_03']
+sub_tables += ['sub_2024_01', 'sub_2024_02', 'sub_2024_03', 'sub_2024_04', 'sub_2024_05', 'sub_2024_06']
 print(sub_tables)
 
 try:
     users_df = pd.read_sql_table('users', con=dobbs_engine)
-    print(users_df.head())
-    users_df = np.array(users_df)[100:1000, 0].tolist()
-    # print(users_df)
+    read_users = pd.read_sql_table('filtered_accepted_user_data_75', con=dobbs_engine)
+    user_list = read_users['user_id'].unique().tolist()
+    escaped_user_list = ["'" + user_id + "'" for user_id in user_list]
+    user_list_str = ', '.join(escaped_user_list)
+    sql_query = f"SELECT user_id FROM users WHERE user_id NOT IN ({user_list_str})"
+    df = pd.read_sql_query(sql_query, dobbs_engine)
+    users_df = np.array(df).squeeze(1)
+    users_df = np.random.choice(users_df, size=20000, replace=False).tolist()
     
 except Exception as e:
     print("Error reading users table:", e)
@@ -41,7 +46,7 @@ except Exception as e:
 #     user_id_list = f.read().splitlines()
 
 # Escape and quote user IDs
-escaped_user_ids = ["'" + user_id + "'" for user_id in users_df]
+escaped_user_ids = ["'"+str(user_id[0])+"'" for user_id in users_df]
 user_ids_str = ', '.join(escaped_user_ids)
 
 print('Len of users:', len(escaped_user_ids))
@@ -99,4 +104,4 @@ filtered_df = post_comment_df[post_comment_df['user_id'].isin(filtered_user_ids)
 print("Shape of filtered_df:", filtered_df.shape)
 
 # save to sql
-filtered_df.to_sql('filtered_accepted_user_data_75', con=dobbs_engine, if_exists='replace', index=False)
+filtered_df.to_sql('filtered_accepted_user_data_75_2', con=dobbs_engine, if_exists='replace', index=False)
