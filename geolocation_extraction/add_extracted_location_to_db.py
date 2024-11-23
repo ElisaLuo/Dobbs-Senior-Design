@@ -10,7 +10,7 @@ warnings.filterwarnings('ignore')
 db_url = 'mysql+pymysql://[username]:[password]@[host]/dobbs_senior_design_db'
 dobbs_engine = create_engine(db_url)
 
-df = pd.read_csv('/home/luoli/senior_design/geolocation_extraction/output_11_8_geocode.csv')
+df = pd.read_csv('cvs path')
 
 with dobbs_engine.connect() as connection:
     for i, user in enumerate(df['user_id']):

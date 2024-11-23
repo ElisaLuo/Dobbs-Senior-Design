@@ -46,11 +46,10 @@ except Exception as e:
 #     user_id_list = f.read().splitlines()
 
 # Escape and quote user IDs
-escaped_user_ids = ["'"+str(user_id[0])+"'" for user_id in users_df]
+escaped_user_ids = ["'"+str(user_id)+"'" for user_id in users_df]
 user_ids_str = ', '.join(escaped_user_ids)
 
-print('Len of users:', len(escaped_user_ids))
-
+print('Len of users:', len(users_df))
 # get comment data
 user_comment_data = pd.DataFrame()
 
