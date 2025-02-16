@@ -17,9 +17,17 @@ To use the Reddit database (swap reddit with dobbs_senior_design_db to see our d
 
 ## Database
 
-Database contains the following tables:
+The Reddit database contains the following tables:
 - Bot_users
 - Subreddits 
 - Users_2006_01 - Users_2017_12
 - Sub_2005_05 - Sub_2024_08 (I also assume this is being constantly updated)
 - Com_2006_01 - Com_2024_08 (I also assume this is being constantly updated)
+
+The Dobbs Senior Design Database contains the following tables:
+- accepted_commenters_com_data (helper table, not used)
+- accepted_commenters_posts_data (helper table, not used)
+- filtered_accepted_user_data_75_i (i being index)
+- liwc_inputs_group_i (i being index)
+- sub_2022
+- users

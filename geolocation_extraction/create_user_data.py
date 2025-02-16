@@ -16,11 +16,11 @@ reddit_url = 'mysql+pymysql://[username]:[password]@[host]/reddit'
 nsehgal_reddit_engine = create_engine(reddit_url)
 
 print("--- Reading Data ---")
-df = pd.read_sql_table('filtered_accepted_user_data_75', con=dobbs_engine)
+df = pd.read_sql_table('filtered_accepted_user_data_75_2', con=dobbs_engine)
 print("shape of messages and posts: ", df.shape)
 
-users_path = "/sandata/luoli/dobbs/user_data"
-user_list_path = "/sandata/luoli/dobbs/user_list.txt"
+users_path = "/sandata/luoli/dobbs/user_data_2"
+user_list_path = "/sandata/luoli/dobbs/user_list_2.txt"
 
 user_list = df['user_id'].unique().tolist()
 
@@ -54,6 +54,7 @@ for idx, user in enumerate(user_list):
             continue
         row_dict['created_utc'] = created_utc
         row_dict['subreddit'] = row['subreddit']
+        row_dict['author_flair_text'] = None
         # row_dict['author_flair_text'] = row['author_flair_text']
         user_data_li.append(row_dict)
     try:    
@@ -61,7 +62,7 @@ for idx, user in enumerate(user_list):
     except:
         print(f"Error opening file for user {user}.")
         # save the users name to /home/nsehgal/reddit_advice/error_users/errors.txt
-        with open('/sandata/luoli/dobbs/error_users/errors.txt', 'a') as error_file:
+        with open('/sandata/luoli/dobbs/error_users/errors_2.txt', 'a') as error_file:
             error_file.write(f"{user}\n")
         continue
     json.dump(user_data_li, data_file, indent=2)
